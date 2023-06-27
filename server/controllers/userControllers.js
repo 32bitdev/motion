@@ -41,3 +41,14 @@ module.exports.login = async (req, res, next) => {
         next(ex);
     }
 };
+
+//logout post request handler
+module.exports.logout = (req, res, next) => {
+    try {
+        if (!req.params.id)
+            return res.status(400).json({ status: false, msg: "User id is required" });
+        return res.status(200).send();
+    } catch (ex) {
+        next(ex);
+    }
+};
