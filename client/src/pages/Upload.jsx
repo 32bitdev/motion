@@ -35,6 +35,61 @@ export default function Upload() {
         }
         fetchData();
     }, [navigate]);
+    const upload = async (event) => {
+        event.preventDefault();
+        if (handleValidation()) {
+            const { title, description } = values;
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            try {
+                const { data } = await axios.post(`${uploadRoute}`, { file, title: title, description: description, _id: user._id }, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                    onUploadProgress: progressEvent => {
+                        setUploadPercentage(
+                            parseInt(
+                                Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                            )
+                        );
+                    }
+                });
+                setUploadPercentage(0);
+                setFilename("Select a Video to Upload");
+                setFile(null);
+                setInfoWindow(false);
+                setValues({ title: "", description: "" });
+                if (data.status === true)
+                    navigate(`/details/${data.videoId}`);
+            } catch (err) {
+                if (err.response && err.response.status && err.response.status === 400)
+                    toast.error(err.response.data.msg, toastOptions);
+                else
+                    navigate("/error");
+            }
+        }
+    };
+    const handleValidation = () => {
+        const { title, description } = values;
+        if (!(file.type === "video/mp4")) {
+            toast.error("File type is not supported", toastOptions);
+            return false;
+        }
+        else if (title === "") {
+            toast.error("Title or Description cannot be blank", toastOptions);
+            return false;
+        }
+        else if (description === "") {
+            toast.error("Title or Description cannot be blank", toastOptions);
+            return false;
+        }
+        else if (title.indexOf(" ") === 0) {
+            toast.error("Title or Description cannot start with space", toastOptions);
+            return false;
+        }
+        else if (description.indexOf(" ") === 0) {
+            toast.error("Title or Description cannot start with space", toastOptions);
+            return false;
+        }
+        return true;
+    };
     return (
         <>
             <Menu />
@@ -79,7 +134,7 @@ export default function Upload() {
                                                     <button className="clearSelected" onClick={() => window.location.reload(false)}>Clear Selected</button>
                                                     {
                                                         (values.title && values.description) ?
-                                                            <button className="uploadButton" onClick={()=>{ }}>Upload</button>
+                                                            <button className="uploadButton" onClick={upload}>Upload</button>
                                                             :
                                                             <button type="button" disabled={true} className="uploadButtonDisabled"><span title="Enter Title and Description to Upload">Upload</span></button>
                                                     }
