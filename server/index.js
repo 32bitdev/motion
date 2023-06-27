@@ -2,6 +2,7 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const { Users } = require("./collecctions/mongoCollections");
 const userRoutes = require("./routes/userRoutes");
+const mediaRoutes = require("./routes/mediaRoutes");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -24,6 +25,7 @@ app.use(function (req, res, next) {
   next();
 });
 app.use("/auth", userRoutes);
+app.use("/media", mediaRoutes);
 
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)
