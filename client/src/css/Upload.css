@@ -1,0 +1,245 @@
+#customFile {
+    display: none;
+}
+
+.uploadTitleContainer {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.uploadTitle {
+    margin-right: 45px;
+    font-size: 50px;
+}
+
+.uploadParentBox {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-file-label {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    width: 220px;
+    overflow: hidden;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+}
+
+.custom-file-label:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.navigation {
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.clearSelected {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    padding: 13px 32px;
+    text-align: center;
+    height: 50px;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.clearSelected:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
+
+.continueSelected {
+    background-color: rgb(66, 133, 244);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    height: 50px;
+    text-align: center;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+}
+
+.continueSelected:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.uploadParentBox form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field {
+    width: 405px;
+    padding: 12px 20px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 2px solid rgb(145, 145, 145);
+    border-radius: 4px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.input-box input {
+    font-family:Arial, Helvetica, sans-serif;
+    height: 50px;
+}
+
+.input-box input::placeholder {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.input-box textarea {
+    font-family:Arial, Helvetica, sans-serif;
+    height: 100px;
+    resize: none;
+}
+
+.input-box textarea::placeholder {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.form-field:hover {
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.form-field:focus {
+    border: 2px solid rgb(66, 133, 244);
+}
+
+.uploadButton {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    width: 150px;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.uploadButton:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.uploadButtonDisabled {
+    font-size: 16px;
+    background-color: rgb(134, 174, 239);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    width: 150px;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.uploadButtonDisabled span {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    transition-duration: 0.4s;
+}
+
+.uploadProgressMain {
+    width: 500px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: rgb(134, 174, 239, 0);
+}
+
+.uploadProgressCurrent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    height: 30px;
+    background-color: rgb(66, 133, 244);
+}
+
+@media only screen and (max-width: 870px) {
+    .uploadTitleContainer {
+        position: fixed;
+        z-index: 1;
+        width: 100vw;
+        height: 10vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .uploadTitle {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+
+    .form-field {
+        width: 300px;
+    }
+
+    .uploadProgressMain {
+        width: 300px;
+    }
+
+    .uploadButton {
+        width: fit-content;
+    }
+
+    .uploadButtonDisabled {
+        width: fit-content;
+    }
+
+    .clearSelected {
+        width: fit-content;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .uploadTitleContainer {
+        display: none;
+    }
+
+    .uploadParentBox {
+        display: none;
+    }
+}
