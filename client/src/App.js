@@ -7,8 +7,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/details/:videoId" element={<Details />} />
       </Routes>
     </BrowserRouter >
   )
