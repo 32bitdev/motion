@@ -49,6 +49,25 @@ export default function Details() {
         }
         fetchData();
     }, [navigate, videoId]);
+    const download = async (videoId) => {
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        try {
+            const res = await axios.post(`${downloadRoute}`, { _id: user._id, videoId: videoId }, { responseType: "blob" });
+            const contentDisposition = res.headers['content-disposition'];
+            const fileName = contentDisposition.split('"')[1];
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${fileName}`);
+            document.body.appendChild(link);
+            link.click();
+        } catch (err) {
+            if (err.response && err.response.status && err.response.status === 400)
+                toast.error(err.response.data.msg, toastOptions);
+            else
+                navigate("/error");
+        }
+    }
     const copyId = () => {
         navigator.clipboard.writeText(video.videoId);
         if (!toast.isActive(toastId.current)) {
