@@ -112,3 +112,40 @@ module.exports.getDetails = async (req, res, next) => {
         next(ex);
     }
 };
+
+//download request handler
+module.exports.download = async (req, res, next) => {
+    try {
+        const { _id, videoId } = req.body;
+        const videoDetails = await Metadata.findOne({ videoId: videoId });
+        if (!(videoDetails.owner === _id))
+            return res.status(400).json({ status: false, msg: "User not authorised" });
+        const filePath = `${path.join(__dirname, `..`, `..`, `database`, `${videoId}.mp4`)}`;
+        const fileName = `${videoDetails.title}.mp4`;
+        res.header('Content-Disposition', `attachment; filename="${fileName}"`);
+        res.status(200);
+        fs.createReadStream(filePath).pipe(res);
+    } catch (ex) {
+        next(ex);
+    }
+};
+
+// change video visibility
+module.exports.changeVisibility = async (req, res, next) => {
+    try {
+        const { _id, videoId, isPrivate } = req.body;
+        const video = await Metadata.findOne({ videoId: videoId });
+        if (!(video.owner === _id))
+            return res.status(500).json({ status: false, msg: "Video is private" });
+        const update = await Metadata.updateOne({ videoId: videoId }, { $set: { isPrivate: isPrivate } });
+        if (!update.acknowledged)
+            return res.status(500).json({ status: false, msg: "Something went wrong" });
+        const videoDetails = await Metadata.findOne({ videoId: videoId });
+        if (!videoDetails)
+            return res.status(500).json({ status: false, msg: "No video available" });
+        else return res.status(200).json({ status: true, msg: "Visibility updated", videoDetails: videoDetails });
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
