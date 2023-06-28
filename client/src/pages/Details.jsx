@@ -49,6 +49,25 @@ export default function Details() {
         }
         fetchData();
     }, [navigate, videoId]);
+    const copyId = () => {
+        navigator.clipboard.writeText(video.videoId);
+        if (!toast.isActive(toastId.current)) {
+            toastId.current = toast.info("Video Id copied", toastOptions);
+        }
+    }
+    const changeVisibility = async (isPrivate) => {
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        try {
+            const { data } = await axios.post(`${changeVisibilityRoute}`, { videoId: videoId, _id: user._id, isPrivate: isPrivate });
+            if (data.status === true)
+                setVideo(data.videoDetails);
+        } catch (err) {
+            if (err.response && err.response.status && err.response.status === 400)
+                toast.error(err.response.data.msg, toastOptions);
+            else
+                navigate("/error");
+        }
+    }
     return (
         <>
             {(showContent) ?
