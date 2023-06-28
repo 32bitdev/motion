@@ -1,0 +1,279 @@
+.detailsTitleContainer {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.detailsTitle {
+    margin-right: 45px;
+    font-size: 50px;
+}
+
+.detailsParentBox {
+    width: 100vw;
+    margin-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inProcessing {
+    width: 700px;
+    height: 400px;
+    background-color: rgb(121, 121, 121);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.detailsInfoBox {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 700px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detailsInfoTitle {
+    font-size: 30px;
+    width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.detailsButtonBox {
+    display: flex;
+    flex-direction: row;
+}
+
+.detailsButtons {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border: none;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 4px;
+    min-width: fit-content;
+    width: 200px;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.detailsButtons:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.detailsButtonsDisabled {
+    font-size: 16px;
+    background-color: rgb(134, 174, 239);
+    color: white;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    min-width: fit-content;
+    width: 200px;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.detailsButtonsDisabled span {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    transition-duration: 0.4s;
+}
+
+.detailsDescriptionBox {
+    background-color: rgb(68, 68, 68);
+    border-radius: 10px;
+    width: 700px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.detailsUploaderInfo {
+    margin-bottom: 5px;
+    color: rgb(206, 206, 206);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.detailsDescriptionBox p {
+    text-align: justify;
+    white-space: pre-line;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.detailsVideoThumbs {
+    width: 700px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.detailsLogoBox {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    width: 700px;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.detailsLogo {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    width: 70%;
+    height: 70%;
+    opacity: 1;
+    transition: ease-in 0.3s;
+    margin: auto;
+}
+
+.detailsVideoThumbs:hover>.detailsLogoBox {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.visibilityBox {
+    position: absolute;
+    padding: 10px;
+    width: 700px;
+    height: 400px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.detailsVisibility {
+    background-color: rgb(74, 74, 74);
+    position: absolute;
+    height: max-content;
+    border-radius: 4px;
+    padding: 4px;
+    color: rgb(245, 245, 245);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 870px) {
+    .detailsTitleContainer {
+        height: 10vh;
+    }
+
+    .detailsTitle {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+
+    .detailsParentBox {
+        margin-top: 10vh;
+    }
+
+    .inProcessing {
+        width: calc(100vw - 20px);
+        height: calc(4 * (100vw - 20px) / 7);
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .detailsVideoThumbs {
+        width: calc(100vw - 20px);
+    }
+
+    .detailsLogoBox {
+        width: calc(100vw - 20px);
+    }
+
+    .visibilityBox {
+        width: calc(100vw - 20px);
+    }
+
+    .detailsInfoBox {
+        width: calc(100vw - 20px);
+    }
+
+    .detailsDescriptionBox {
+        width: calc(100vw - 20px);
+    }
+
+    .detailsButtons {
+        width: fit-content;
+    }
+
+    .detailsButtonsDisabled {
+        width: fit-content;
+    }
+
+    .detailsInfoTitle {
+        width: 150px;
+        font-size: 25px;
+    }
+}
+
+@media only screen and (max-width: 560px) {
+    .detailsButtonBox {
+        width: calc(100vw - 20px);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .detailsButtons {
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: 10px;
+        width: fit-content;
+    }
+
+    .detailsButtonsDisabled {
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: 10px;
+        width: fit-content;
+    }
+
+    .detailsInfoBox {
+        flex-direction: column;
+    }
+
+    .detailsInfoTitle {
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .detailsTitleContainer {
+        display: none;
+    }
+
+    .detailsParentBox {
+        display: none;
+    }
+}
