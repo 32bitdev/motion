@@ -90,3 +90,25 @@ module.exports.upload = async (req, res, next) => {
         next(ex);
     }
 };
+//get a video details
+module.exports.getDetails = async (req, res, next) => {
+    try {
+        const { _id, videoId, roomId } = req.body;
+        const video = await Metadata.findOne({ videoId: videoId });
+        if (roomId) {
+            // roomID functionality shall be written here
+        }
+
+        else {
+            if (!video)
+                return res.status(500).json({ status: false, msg: "No video available" });
+            if (_id === video.owner)
+                res.status(200).json({ status: true, msg: "Video found", videoDetails: video });
+            else
+                return res.status(500).json({ status: false, msg: "Video is private" }); // to change
+        }
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
