@@ -4,10 +4,29 @@ const fs = require("fs");
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+const { getVideoDurationInSeconds } = require("get-video-duration");
 
 //upload request handler
 module.exports.upload = async (req, res, next) => {
     try {
+        const processingDone = async () => {
+            getVideoDurationInSeconds(`${path.join(__dirname, `..`, `..`, `database`, `${videoId}.mp4`)}`).then(async (duration) => {
+                if (duration == null)
+                    console.log(`Error in finding length - ${videoId}`)
+                console.log(duration);
+                await new ffmpeg(`${path.join(__dirname, `..`, `..`, `database`, `${videoId}.mp4`)}`)
+                    .takeScreenshots({
+                        count: 1,
+                        timemarks: [duration / 2],
+                        filename: `${videoId}.png`
+                    }, `${path.join(__dirname, `..`, `..`, `database`, `thumbnails`)}`, function (err) {
+                        if (err)
+                            console.log(`Screenshot failed - ${videoId}`);
+                    });
+            });
+            await Metadata.updateOne({ videoId: videoId }, { $set: { processed: true } });
+            console.log(`Video processing done - ${videoId}`);
+        }
         if (req.files === null)
             return res.status(400).json({ status: false, msg: "No file selected" });
         const file = await req.files.file;
