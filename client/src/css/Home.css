@@ -1,0 +1,44 @@
+.titleContainer {
+    background-color: #1b1b1b;
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: default;
+}
+
+.title {
+    margin-right: 45px;
+    font-size: 50px;
+}
+
+.videos {
+    margin-top: 15vh;
+}
+
+@media only screen and (max-width: 870px) {
+    .title {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+    .titleContainer {
+        height: 10vh;
+    }
+    .videos {
+        margin-top: 10vh;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .titleContainer {
+        display: none;
+    }
+
+    .videos {
+        display: none;
+    }
+}
