@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getVideosRoute } from "../utils/APIRoutes";
+import { host, getVideosRoute } from "../utils/APIRoutes";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -34,7 +34,7 @@ export default function Videos({ onlyOwned }) {
                             <div className="vidContainer">
                                 {videos.map((video) => {
                                     return (
-                                        <div key={uuidv4()} onClick={() => { (onlyOwned) ? navigate(`/details/${video.videoId}`) : navigate(`/player/${video.videoId}`) }} className="vidBoxes" style={{ backgroundImage: `url(http://localhost:5000/media/getThumbs/${video.videoId})` }}>
+                                        <div key={uuidv4()} onClick={() => { (onlyOwned) ? navigate(`/details/${video.videoId}`) : navigate(`/player/${video.videoId}`) }} className="vidBoxes" style={{ backgroundImage: `url(${host}/media/getThumbs/${video.videoId})` }}>
                                             {
                                                 !(onlyOwned) ?
                                                     <>
