@@ -149,3 +149,14 @@ module.exports.changeVisibility = async (req, res, next) => {
         next(ex);
     }
 };
+
+//get thumbnails
+module.exports.getThumbs = async (req, res, next) => {
+    try {
+        const videoId = req.params.videoId;
+        if (fs.existsSync(`${path.join(__dirname, `..`, `..`, `database`, `thumbnails`, `${videoId}.png`)}`))
+            res.sendFile(`${path.join(__dirname, `..`, `..`, `database`, `thumbnails`, `${videoId}.png`)}`);
+    } catch (ex) {
+        next(ex);
+    }
+};
