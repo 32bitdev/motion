@@ -150,6 +150,23 @@ module.exports.changeVisibility = async (req, res, next) => {
     }
 };
 
+//get videos
+module.exports.getVideos = async (req, res, next) => {
+    try {
+        const { _id, onlyOwned } = req.body;
+        if (onlyOwned) {
+            const videos = await Metadata.find({ owner: _id }).toArray();
+            return res.status(200).json({ status: true, videos: videos });
+        }
+        else {
+            const videos = await Metadata.find({ $and: [{ processed: true }, { $or: [{ owner: _id }, { isPrivate: false }] }] }).toArray();
+            return res.status(200).json({ status: true, videos: videos });
+        }
+    } catch (ex) {
+        next(ex);
+    }
+};
+
 //get thumbnails
 module.exports.getThumbs = async (req, res, next) => {
     try {
