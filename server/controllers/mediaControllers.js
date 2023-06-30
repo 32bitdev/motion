@@ -1,6 +1,8 @@
-const { Users, Metadata, ObjectId } = require("../collections/mongoCollections");
+const { Users, Metadata, Streams, ObjectId } = require("../collections/mongoCollections");
+const { randomUUID } = require("crypto");
 const path = require("path");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
@@ -107,6 +109,75 @@ module.exports.getDetails = async (req, res, next) => {
             else
                 return res.status(500).json({ status: false, msg: "Video is private" }); // to change
         }
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
+
+//stream verification handler
+module.exports.streamVerification = async (req, res, next) => {
+    try {
+        const urlId = randomUUID();
+        const tokenId = randomUUID();
+        const cookieId = randomUUID();
+        const { _id, videoId, roomId } = req.body;
+        const video = await Metadata.findOne({ videoId: videoId });
+        if (!video)
+            return res.status(500).json({ status: false, msg: "No video available" });
+        if (!(video.processed))
+            return res.status(500).json({ status: false, msg: "Video is under processing" });
+        if (video.isPrivate === false || _id === video.owner) {
+            const streamAdd = await Streams.insertOne({ createdAt: new Date(), sessionId: req.sessionID, urlId: urlId, tokenId: tokenId, cookieId: cookieId, videoId: videoId });
+            if (!streamAdd.acknowledged)
+                return res.status(500).json({ status: false, msg: "Something went wrong" });
+            const url = jwt.sign(
+                { "urlId": urlId },
+                process.env.URL_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            const token = jwt.sign(
+                { "tokenId": tokenId },
+                process.env.TOKEN_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            const cookie = jwt.sign(
+                { "cookieId": cookieId },
+                process.env.COOKIE_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            res.cookie("jwt", cookie, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+            res.status(200).json({ status: true, msg: "Video found", url: url, token: token, video: video });
+        }
+        else if (roomId) {
+            const room = await Rooms.findOne({ roomId: roomId });
+            if (!room)
+                return res.status(400).json({ status: false, msg: "Room does not exist" });
+            if (!(room.videoId === videoId))
+                return res.status(400).json({ status: false, msg: "Video not allowed in room" });
+            const streamAdd = await Streams.insertOne({ createdAt: new Date(), sessionId: req.sessionID, urlId: urlId, tokenId: tokenId, cookieId: cookieId, videoId: videoId });
+            if (!streamAdd.acknowledged)
+                return res.status(500).json({ msg: "Something went wrong" });
+            const url = jwt.sign(
+                { "urlId": urlId },
+                process.env.URL_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            const token = jwt.sign(
+                { "tokenId": tokenId },
+                process.env.TOKEN_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            const cookie = jwt.sign(
+                { "cookieId": cookieId },
+                process.env.COOKIE_SECRET_KEY,
+                { expiresIn: "1d" }
+            );
+            res.cookie("jwt", cookie, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+            res.status(200).json({ status: true, msg: "Video found", url: url, token: token, video: video });
+        }
+        else
+            return res.status(200).json({ status: false, isPrivate: true, msg: "Video is private" });
     }
     catch (ex) {
         next(ex);

@@ -6,4 +6,6 @@ const db = client.db("motion");
 client.connect();
 const Users = db.collection("users");
 const Metadata = db.collection("metaDatas");
-module.exports = { Users, Metadata, ObjectId };
+const Streams = db.collection("streams");
+Streams.createIndex({ "createdAt": 1 }, { expireAfterSeconds: 86400 });
+module.exports = { Users, Metadata, Streams, ObjectId };
