@@ -184,6 +184,76 @@ module.exports.streamVerification = async (req, res, next) => {
     }
 };
 
+//stream request handler
+module.exports.stream = async (req, res, next) => {
+    try {
+        let urlId, tokenId, cookieId;
+        const url = req.params.url;
+        const urlExt = path.extname(url);
+        const cookie = req.cookies.jwt;
+        const authHeader = req.headers.authorization || req.headers.Authorization;
+        if (!authHeader?.startsWith('Bearer '))
+            return res.status(401);
+        const token = authHeader.split(' ')[1];
+        if (!(urlExt === ".ts")) {
+            jwt.verify(
+                url,
+                process.env.URL_SECRET_KEY,
+                (err, decoded) => {
+                    if (err)
+                        return res.status(403);
+                    urlId = decoded.urlId;
+                }
+            );
+        }
+        jwt.verify(
+            token,
+            process.env.TOKEN_SECRET_KEY,
+            (err, decoded) => {
+                if (err)
+                    return res.status(403);
+                tokenId = decoded.tokenId;
+            }
+        );
+        jwt.verify(
+            cookie,
+            process.env.COOKIE_SECRET_KEY,
+            (err, decoded) => {
+                if (err)
+                    return res.status(403);
+                cookieId = decoded.cookieId;
+            }
+        );
+        if (urlExt === ".ts") {
+            const stream = await Streams.findOne({ tokenId: tokenId });
+            if (!stream)
+                return res.status(400).json({ status: false, msg: "No stream available" });
+            if (!(req.sessionID === stream.sessionId))
+                return res.status(403);
+            const tsPath = `${path.join(__dirname, `..`, `..`, `database`, url)}`;
+            const tsStream = fs.createReadStream(tsPath);
+            tsStream.pipe(res);
+        }
+        else {
+            const stream = await Streams.findOne({ urlId: urlId });
+            if (!stream)
+                return res.status(400).json({ status: false, msg: "No stream available" });
+            if (!(tokenId === stream.tokenId))
+                return res.status(403);
+            else if (!(cookieId === stream.cookieId))
+                return res.status(403);
+            else if (!(req.sessionID === stream.sessionId))
+                return res.status(403);
+            const m3u8Path = `${path.join(__dirname, `..`, `..`, `database`, `${stream.videoId}.m3u8`)}`;
+            const m3u8Stream = fs.createReadStream(m3u8Path);
+            m3u8Stream.pipe(res);
+        }
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
+
 //download request handler
 module.exports.download = async (req, res, next) => {
     try {
