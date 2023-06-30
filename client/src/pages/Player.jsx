@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import { streamVerificationRoute } from "../utils/APIRoutes";
+import { streamVerificationRoute, streamRoute } from "../utils/APIRoutes";
 import axios from "axios";
 import Hls from "hls.js";
 import Menu from "../components/Menu";
@@ -40,7 +40,24 @@ export default function Player() {
                 try {
                     const { data } = await axios.post(`${streamVerificationRoute}`, { _id: user._id, videoId: videoId }, { withCredentials: true });
                     if (data.status === true) {
-                        // HLS code shall be written here
+                        setVideoDetails(data.video);
+                        const config = {
+                            xhrSetup: function (xhr) {
+                                xhr.withCredentials = true;
+                                xhr.setRequestHeader(`Authorization`, `Bearer ${data.token}`);
+                            },
+                        };
+                        if (Hls.isSupported()) {
+                            const video = document.getElementById("videoPlayer");
+                            const hls = new Hls(config);
+                            hls.loadSource(`${streamRoute}/${data.url}`);
+                            hls.attachMedia(video);
+                            document.getElementById("videoPlayer").load();
+                            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                                video.muted = false;
+                                video.play();
+                            });
+                        }
                     }
                     else if (data.status === false && data.isPrivate === true) {
                         if (!navigate) return;
