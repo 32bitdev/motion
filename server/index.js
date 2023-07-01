@@ -1,6 +1,6 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const { Users } = require("./collecctions/mongoCollections");
+const { Users } = require("./collections/mongoCollections");
 const userRoutes = require("./routes/userRoutes");
 const mediaRoutes = require("./routes/mediaRoutes");
 const session = require("express-session");
