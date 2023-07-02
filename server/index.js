@@ -1,8 +1,10 @@
 const express = require("express");
+const socket = require("socket.io");
 const fileUpload = require("express-fileupload");
-const { Users } = require("./collections/mongoCollections");
+const { Users, Rooms } = require("./collections/mongoCollections");
 const userRoutes = require("./routes/userRoutes");
 const mediaRoutes = require("./routes/mediaRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -26,7 +28,27 @@ app.use(function (req, res, next) {
 });
 app.use("/auth", userRoutes);
 app.use("/media", mediaRoutes);
+app.use("/room", roomRoutes);
 
 const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)
 );
+
+//socket io part
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true
+  }
+});
+
+global.onlineUsers = new Map();
+global.onlineId = new Map();
+global.socketIdToRoom = new Map();
+global.temporaryUsers = new Map();
+global.temporaryUsersId = new Map();
+global.roomVideos = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  // Socket io messages shall be written here
+});
