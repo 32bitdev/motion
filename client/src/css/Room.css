@@ -1,0 +1,190 @@
+.roomTitleContainer {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.roomTitle {
+    margin-right: 45px;
+    font-size: 50px;
+}
+
+.roomParentBox {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.hologram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hologram img {
+    width: 600px;
+}
+
+.roomBox {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.roomBox .createButton {
+    background-color: rgb(66, 133, 244);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    height: 50px;
+    text-align: center;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+}
+
+.roomBox .createButton:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.roomBox form {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.roomBox form .input-box {
+    margin: 5px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.roomBox form .input-box input {
+    width: 100%;
+    padding: 12px 20px;
+    height: 50px;
+    box-sizing: border-box;
+    border: 2px solid rgb(145, 145, 145);
+    border-radius: 4px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.roomBox form .input-box input:hover {
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.roomBox form .input-box input:focus {
+    border: 2px solid rgb(66, 133, 244);
+}
+
+.roomBox form .joinButton {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    padding: 13px 32px;
+    text-align: center;
+    height: 50px;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.roomBox form .joinButton:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
+
+.roomBox form .joinButtonDisabled {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgb(0, 0, 0, 0);
+    color: rgb(0, 0, 0, 0);
+    padding: 13px 32px;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 16px;
+    transition: 0.4s;
+}
+
+@media only screen and (min-width: 870px) and (max-width: 1100px) {
+    .roomParentBox {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .hologram {
+        display: none;
+    }
+
+    .hologram img {
+        display: none;
+    }
+
+    .roomBox form .joinButtonDisabled {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 870px) {
+    .roomParentBox {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .roomBox {
+        flex-direction: column;
+    }
+
+    .roomBox form {
+        flex-direction: column;
+    }
+
+    .hologram {
+        display: none;
+    }
+
+    .hologram img {
+        display: none;
+    }
+
+    .roomTitle {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+
+    .roomTitleContainer {
+        height: 10vh;
+    }
+
+    .videos {
+        margin-top: 10vh;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .roomParentBox {
+        display: none;
+    }
+
+    .roomTitleContainer {
+        display: none;
+    }
+}

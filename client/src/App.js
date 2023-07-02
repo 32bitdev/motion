@@ -19,6 +19,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/details/:videoId" element={<Details />} />
         <Route path="/player/:videoId" element={<Player />} />
+        <Route path="/room" element={<Room />} />
       </Routes>
     </BrowserRouter >
   )

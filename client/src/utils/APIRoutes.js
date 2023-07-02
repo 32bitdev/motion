@@ -9,3 +9,5 @@ export const streamVerificationRoute = `${host}/media/streamVerification`;
 export const changeVisibilityRoute = `${host}/media/changeVisibility`;
 export const getVideosRoute = `${host}/media/getVideos`;
 export const downloadRoute = `${host}/media/download`;
+export const createRoomRoute = `${host}/room/createRoom`;
+export const joinRoomRoute = `${host}/room/joinRoom`;
