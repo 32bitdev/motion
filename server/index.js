@@ -50,5 +50,12 @@ global.temporaryUsersId = new Map();
 global.roomVideos = new Map();
 io.on("connection", (socket) => {
   global.chatSocket = socket;
-  // Socket io messages shall be written here
+  socket.on("in-room", async (payload) => {
+    onlineUsers.set(`${payload._id}+${payload.roomDetails.roomId}`, socket.id);
+    onlineId.set(socket.id, `${payload._id}+${payload.roomDetails.roomId}`);
+    socketIdToRoom.set(socket.id, `${payload.roomDetails.owner}+${payload.roomDetails.roomId}`);
+    await socket.join(`${payload.roomDetails.owner}+${payload.roomDetails.roomId}`);
+    socket.to(`${payload.roomDetails.owner}+${payload.roomDetails.roomId}`).emit(
+      "room-update");
+  });
 });
