@@ -1,0 +1,376 @@
+.inRoomTitleContainer {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 130px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.inRoomTitle {
+    margin-right: 45px;
+    font-size: 50px;
+}
+
+.inRoomParentBox {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.playContent {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    padding: 13px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.playContent:hover {    
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.playContentDisabled {
+    font-size: 16px;
+    background-color: rgb(134, 174, 239);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    padding: 13px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.playContentDisabled span {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    transition-duration: 0.4s;
+}
+
+.exitRoom {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding: 14px;
+    min-width: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.exitRoom:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
+
+.videoIdForm {
+    width: 400px;
+    padding: 12px 20px;
+    height: 50px;
+    margin: 5px;
+    box-sizing: border-box;
+    border: 2px solid rgb(145, 145, 145);
+    border-radius: 4px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.videoIdForm:hover {
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.videoIdForm:focus {
+    border: 2px solid rgb(66, 133, 244);
+}
+
+.back {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding: 14px;
+    width: fit-content;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.back:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
+
+.stopSharing {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    padding: 13px;
+    border: none;
+    border-radius: 4px;
+    min-width: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.stopSharing:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.copyId {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    padding: 13px;
+    border: none;
+    border-radius: 4px;
+    min-width: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.copyId:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.navigationBox {
+    display: flex;
+}
+
+
+.members {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100vw;
+    overflow-x: auto;
+}
+
+.optionsMemberBox {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    text-align: center;
+    height: 50px;
+    margin: 5px;
+    padding: 13px;
+    min-width: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.optionsMemberBox:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
+
+.non-OptionsMemberBox {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    text-align: center;
+    height: 50px;
+    margin: 5px;
+    padding: 13px;
+    min-width: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition-duration: 0.4s;
+    cursor: default;
+}
+
+.kick-ban-options {
+    background-color: #1b1b1b;
+    display: flex;
+    flex-direction: column;
+}
+
+.kick {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.kick:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.ban {
+    font-size: 16px;
+    background-color: rgb(244, 66, 66);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.ban:hover {
+    background-color: rgb(213, 0, 0);
+    cursor: pointer;
+}
+
+.accept-reject-options {
+    background-color: #1b1b1b;
+    display: flex;
+    flex-direction: column;
+}
+
+.accept {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.accept:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.reject {
+    font-size: 16px;
+    background-color: rgb(244, 66, 66);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.reject:hover {
+    background-color: rgb(213, 0, 0);
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 850px) {
+    .inRoomTitleContainer {
+        height: 10vh;
+    }
+
+    .inRoomTitle {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+
+    .formMain {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+    }
+
+    .playContent {
+        width: 340px;
+    }
+
+    .playContentDisabled {
+        width: 340px;
+    }
+
+    .back {
+        width: 340px;
+    }
+
+    .videoIdForm {
+        width: 340px;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .inRoomTitleContainer {
+        display: none;
+    }
+
+    .inRoomParentBox {
+        display: none;
+    }
+}
