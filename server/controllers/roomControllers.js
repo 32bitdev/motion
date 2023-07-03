@@ -61,3 +61,19 @@ module.exports.joinRoom = async (req, res, next) => {
         next(ex);
     }
 };
+
+//room details request handler
+module.exports.roomDetails = async (req, res, next) => {
+    try {
+        const { roomId, _id } = req.body;
+        const roomDetails = await Rooms.findOne({ roomId: roomId });
+        if (!roomDetails)
+            return res.status(500).json({ status: false, msg: "Room does not exist" });
+        if (!roomDetails.members.includes(_id))
+            return res.status(500).json({ status: false, msg: "User not allowed" });
+        return res.status(200).json({ status: true, roomDetails: roomDetails });
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
