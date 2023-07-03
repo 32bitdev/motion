@@ -37,7 +37,26 @@ export default function Room() {
     }
 
     const joinRoom = async (event) => {
-        // Join room logic here
+        event.preventDefault();
+        const { roomId } = values;
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        try {
+            const { data } = await axios.post(`${joinRoomRoute}`, { roomId: roomId, _id: user._id });
+            if (data.status === true) {
+                if (data.validation === false) {
+                    navigate(`/room/${roomId}`);
+                }
+                else {
+                    const roomDetails = data.roomDetails;
+                    navigate("/validation", { state: { roomDetails, _id: user._id, username: data.username } });
+                }
+            }
+        } catch (err) {
+            if (err.response && err.response.status && err.response.status === 400)
+                toast.error(err.response.data.msg, toastOptions);
+            else
+                navigate("/error");
+        }
     }
     useEffect(() => {
         async function fetchData() {
