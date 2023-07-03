@@ -30,7 +30,18 @@ export default function Validation() {
         socket.current = io(host);
         const _id = location.state._id;
         const roomDetails = location.state.roomDetails;
-        // Socket logic shall be written here
+        socket.current.on("room-request-approved", async () => {
+          try {
+            const { data } = await axios.post(`${roomValidationRoute}`, { roomDetails: roomDetails, _id: _id });
+            if (data.status === true)
+              navigate(`/room/${roomDetails.roomId}`);
+          } catch (err) {
+            navigate("/error");
+          }
+        });
+        socket.current.emit("send-room-request", { _id: _id, roomDetails, username: location.state.username });
+        await new Promise(res => setTimeout(res, 6000));
+        setInValidation(false);
       }
     }
     fetchData();
