@@ -22,7 +22,18 @@ export default function Room() {
     const [values, setValues] = useState({ roomId: "" });
     const textHandleChange = (event) => { setValues({ ...values, [event.target.name]: event.target.value }) };
     const createRoom = async () => {
-        // Create room logic here
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        try {
+            const { data } = await axios.post(`${createRoomRoute}`, { _id: user._id });
+            if (data.status === true)
+                navigate(`/room/${data.roomDetails.roomId}`);
+        } catch (err) {
+            if (err.response && err.response.status && err.response.status === 400)
+                toast.error(err.response.data.msg, toastOptions);
+            else
+                // navigate("/error");
+                console.log(err);
+        }
     }
 
     const joinRoom = async (event) => {
