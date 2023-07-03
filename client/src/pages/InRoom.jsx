@@ -41,7 +41,6 @@ export default function InRoom() {
                     socket.current = io(host);
                     socket.current.emit("in-room", { roomDetails: data.roomDetails, _id: user._id });
                     socket.current.on("room-update", async () => {
-                        console.log("roomupdate");
                         try {
                             const { data } = await axios.post(`${roomDetailsRoute}`, { roomId: roomId, _id: user._id });
                             if (data.status === true)
@@ -52,6 +51,23 @@ export default function InRoom() {
                             else
                                 navigate("/error");
                         }
+                    });
+                    socket.current.on("recieve-room-request", async (payload) => {
+                        toast(
+                            <div className="accept-reject-options">
+                                <div className="accept-reject-options-title">
+                                    Incoming Request: {payload.username.charAt(0).toUpperCase() + payload.username.slice(1)} !
+                                </div>
+                                <div>
+                                    <button className="accept" onClick={async () => {
+                                        socket.current.emit("approve-room-request", payload);
+                                    }
+                                    }>Accept</button>
+                                    <button className="reject">Reject</button>
+                                </div>
+                            </div>
+                            ,
+                            toastOptions);
                     });
                 }
                 else

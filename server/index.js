@@ -65,4 +65,9 @@ io.on("connection", (socket) => {
     socket.to(onlineUsers.get(`${payload.roomDetails.owner}+${payload.roomDetails.roomId}`)).emit(
       "recieve-room-request", payload);
   });
+
+  socket.on("approve-room-request", async (payload) => {
+    socket.to(temporaryUsers.get(`${payload._id}+${payload.roomDetails.roomId}`)).emit(
+      "room-request-approved", payload);
+  });
 });
