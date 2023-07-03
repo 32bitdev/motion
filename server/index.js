@@ -58,4 +58,11 @@ io.on("connection", (socket) => {
     socket.to(`${payload.roomDetails.owner}+${payload.roomDetails.roomId}`).emit(
       "room-update");
   });
+
+  socket.on("send-room-request", async (payload) => {
+    temporaryUsers.set(`${payload._id}+${payload.roomDetails.roomId}`, socket.id);
+    temporaryUsersId.set(socket.id, `${payload._id}+${payload.roomDetails.roomId}`);
+    socket.to(onlineUsers.get(`${payload.roomDetails.owner}+${payload.roomDetails.roomId}`)).emit(
+      "recieve-room-request", payload);
+  });
 });
