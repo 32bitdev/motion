@@ -1,4 +1,4 @@
-const { Users, Metadata, Streams, ObjectId } = require("../collections/mongoCollections");
+const { Users, Metadata, Rooms, Streams, ObjectId } = require("../collections/mongoCollections");
 const { randomUUID } = require("crypto");
 const path = require("path");
 const fs = require("fs");
@@ -92,6 +92,7 @@ module.exports.upload = async (req, res, next) => {
         next(ex);
     }
 };
+
 //get a video details
 module.exports.getDetails = async (req, res, next) => {
     try {
