@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { roomDetailsRoute, host } from "../utils/APIRoutes";
+import { getDetailsRoute, roomDetailsRoute, host } from "../utils/APIRoutes";
 import { useNavigate, useParams } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { io } from "socket.io-client";
@@ -93,12 +93,38 @@ export default function InRoom() {
     const exit = async () => {
         // Exit logic shall be written here
     }
+    const setVideoSocket = async (videoId) => {
+        // Set video socket logic shall be written here
+    }
+    const removeVideoSocket = async () => {
+        // Remove video socket logic shall be written here
+    }
     const stopSharing = async () => {
         // Stop sharing logic shall be written here
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Submit logic shall be written here
+        if (!videoId) {
+            if (values.videoId === "")
+                toast.error("videoId Required", toastOptions);
+            else {
+                try {
+                    const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+                    const { data } = await axios.post(`${getDetailsRoute}`, { _id: user._id, roomId: roomDetails.roomId, videoId: values.videoId }, { withCredentials: true });
+                    if (data.status === true) {
+                        setVideoSocket(values.videoId);
+                        setPresenter(true);
+                        setVideoId(values.videoId);
+                        setKey(uuidv4());
+                    }
+                } catch (err) {
+                    if (err.response && err.response.status && err.response.status === 400)
+                        toast.error(err.response.data.msg, toastOptions);
+                    else
+                        navigate("/error");
+                }
+            }
+        }
     };
     const handleChange = (event) => { setValues({ ...values, [event.target.name]: event.target.value }) };
     return (
