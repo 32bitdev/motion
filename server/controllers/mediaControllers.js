@@ -98,16 +98,43 @@ module.exports.getDetails = async (req, res, next) => {
         const { _id, videoId, roomId } = req.body;
         const video = await Metadata.findOne({ videoId: videoId });
         if (roomId) {
-            // roomID functionality shall be written here
+            if (!video)
+                return res.status(400).json({ status: false, msg: "No video available" });
+            if (!(video.processed))
+                return res.status(400).json({ status: false, msg: "Video is under processing" });
+            if (video.isPrivate) {
+                if (_id === video.owner) {
+                    const room = await Rooms.findOne({ roomId: roomId });
+                    if (!room)
+                        return res.status(500).json({ status: false, msg: "Room does not exist" });
+                    const videoAdd = await Rooms.updateOne({ roomId: roomId }, { $set: { videoId: videoId } });
+                    if (!videoAdd.acknowledged)
+                        return res.status(500).json({ status: false, msg: "Something went wrong" });
+                    res.status(200).json({ status: true, msg: "Video found", videoDetails: video });
+                }
+                else {
+                    const room = await Rooms.findOne({ roomId: roomId });
+                    if (!room)
+                        return res.status(500).json({ status: false, msg: "Room does not exist" });
+                    if (!(room.videoId === videoId))
+                        return res.status(400).json({ status: false, msg: "Video not allowed in room" });
+                    res.status(200).json({ status: true, msg: "Video found", videoDetails: video });
+                }
+            }
+            else {
+                const room = await Rooms.findOne({ roomId: roomId });
+                if (!room)
+                    return res.status(500).json({ status: false, msg: "Room does not exist" });
+                res.status(200).json({ status: true, msg: "Video found", videoDetails: video });
+            }
         }
-
         else {
             if (!video)
                 return res.status(500).json({ status: false, msg: "No video available" });
             if (_id === video.owner)
                 res.status(200).json({ status: true, msg: "Video found", videoDetails: video });
             else
-                return res.status(500).json({ status: false, msg: "Video is private" }); // to change
+                return res.status(500).json({ status: false, msg: "Video is private" });
         }
     }
     catch (ex) {
