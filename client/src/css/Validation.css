@@ -1,0 +1,68 @@
+.parentValidationBox {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.waiting {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.waiting p {
+    font-size: 30px;
+}
+
+.not-accepted {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-accepted p {
+    font-size: 30px;
+}
+
+.resendRequest {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 15px;
+    width: 100px;
+    padding: 15px;
+    border: 2px solid rgb(66, 133, 244);
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.resendRequest:hover {
+    border: 2px solid rgb(37, 111, 249);
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.cancelRequest {
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    text-align: center;
+    margin: 15px;
+    padding: 15px;
+    width: 100px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.cancelRequest:hover {
+    border: 2px solid rgb(66, 133, 244);
+    cursor: pointer;
+}
