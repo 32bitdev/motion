@@ -62,6 +62,30 @@ module.exports.joinRoom = async (req, res, next) => {
     }
 };
 
+//room validation request handler
+module.exports.roomValidation = async (req, res, next) => {
+    try {
+        const { roomDetails, _id } = req.body;
+        const room = await Rooms.findOne({ roomId: roomDetails.roomId });
+        if (!room)
+            return res.status(500).json({ status: false, msg: "Room does not exist" });
+        if (room.members.includes(_id))
+            return res.status(200).json({ status: true, msg: "User already present" });
+        else {
+            const user = await Users.findOne({ _id: new ObjectId(_id) });
+            if (!(user))
+                return res.status(500).json({ status: false, msg: "User does not exist" });
+            const memberAdd = await Rooms.updateOne({ roomId: roomDetails.roomId }, { $push: { members: _id, membersNames: user.username } });
+            if (!memberAdd.acknowledged)
+                return res.status(500).json({ status: false, msg: "Something Went Wrong" });
+            return res.status(200).json({ status: true, msg: "User added to room" });
+        }
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
+
 //room details request handler
 module.exports.roomDetails = async (req, res, next) => {
     try {
