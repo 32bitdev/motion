@@ -5,6 +5,7 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import Player from "../components/Player";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/InRoom.css";
 
@@ -164,6 +165,7 @@ export default function InRoom() {
                                 </>
                                 :
                                 <>
+                                    <Player key={key} videoId={videoId} presenter={presenter} roomDetails={roomDetails} socket={socket} />
                                 </>
                         }
                     </div>
