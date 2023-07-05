@@ -102,6 +102,25 @@ module.exports.roomDetails = async (req, res, next) => {
     }
 };
 
+//room media clear request handler
+module.exports.roomMediaClear = async (req, res, next) => {
+    try {
+        const { _id, roomId } = req.body;
+        const roomDetails = await Rooms.findOne({ roomId: roomId });
+        if (!roomDetails)
+            return res.status(500).json({ status: false, msg: "Room does not exist" });
+        if (!roomDetails.members.includes(_id))
+            return res.status(500).json({ status: false, msg: "User not present" });
+        const mediaClear = await Rooms.updateOne({ roomId: roomId }, { $set: { videoId: null } });
+        if (!mediaClear.acknowledged)
+            return res.status(500).json({ status: false, msg: "Something went wrong" });
+        return res.status(200).json({ status: true, msg: "Room media cleared" });
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
+
 //room exit request handler
 module.exports.exitRoom = async (req, res, next) => {
     try {
