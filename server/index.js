@@ -70,4 +70,16 @@ io.on("connection", (socket) => {
     socket.to(temporaryUsers.get(`${payload._id}+${payload.roomDetails.roomId}`)).emit(
       "room-request-approved", payload);
   });
+
+  socket.on("disconnect", () => {
+    const Id = onlineId.get(socket.id);
+    onlineId.delete(socket.id);
+    onlineUsers.delete(Id);
+    const tempId = temporaryUsersId.get(socket.id);
+    temporaryUsersId.delete(socket.id);
+    temporaryUsers.delete(tempId);
+    socket.to(socketIdToRoom.get(socket.id)).emit(
+      "room-update");
+    socketIdToRoom.delete(socket.id);
+  });
 });
