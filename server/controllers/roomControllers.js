@@ -101,3 +101,25 @@ module.exports.roomDetails = async (req, res, next) => {
         next(ex);
     }
 };
+
+//room exit request handler
+module.exports.exitRoom = async (req, res, next) => {
+    try {
+        const { roomId, _id } = req.body;
+        const roomDetails = await Rooms.findOne({ roomId: roomId });
+        if (!roomDetails)
+            return res.status(500).json({ status: false, msg: "Room does not exist" });
+        if (!roomDetails.members.includes(_id))
+            return res.status(500).json({ status: false, msg: "User is not in the room" });
+        const user = await Users.findOne({ _id: new ObjectId(_id) });
+        if (!(user))
+            return res.status(500).json({ status: false, msg: "User does not exist" });
+        const update = await Rooms.updateOne({ roomId: roomId }, { $pull: { members: _id, membersNames: user.username } });
+        if (!update.acknowledged)
+            return res.status(500).json({ status: false, msg: "Something went wrong" });
+        return res.status(200).json({ status: true, msg: "Room exited" });
+    }
+    catch (ex) {
+        next(ex);
+    }
+};
