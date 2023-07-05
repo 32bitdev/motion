@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getDetailsRoute, roomDetailsRoute, host } from "../utils/APIRoutes";
+import { getDetailsRoute, roomDetailsRoute, exitRoomRoute, roomMediaClearRoute, host } from "../utils/APIRoutes";
 import { useNavigate, useParams } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { io } from "socket.io-client";
@@ -51,6 +51,13 @@ export default function InRoom() {
                                 toast.error(err.response.data.msg, toastOptions);
                             else
                                 navigate("/error");
+                        }
+                    });
+                    socket.current.on("get-video", async (payload) => {
+                        if (!(user._id === payload.presenter)) {
+                            setPresenter(false);
+                            setVideoId(payload.videoId);
+                            setKey(uuidv4());
                         }
                     });
                     socket.current.on("recieve-room-request", async (payload) => {
@@ -112,13 +119,33 @@ export default function InRoom() {
         }
     }
     const setVideoSocket = async (videoId) => {
-        // Set video socket logic shall be written here
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId, videoId: videoId };
+        await socket.current.emit("set-video", payload);
     }
     const removeVideoSocket = async () => {
-        // Remove video socket logic shall be written here
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId };
+        await socket.current.emit("remove-video", payload);
     }
     const stopSharing = async () => {
-        // Stop sharing logic shall be written here
+        if (presenter) {
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            try {
+                const { data } = await axios.post(`${roomMediaClearRoute}`, { _id: user._id, roomId: roomDetails.roomId });
+                if (data.status === true) {
+                    setVideoId("");
+                    setPresenter(false);
+                    setKey(uuidv4());
+                    removeVideoSocket();
+                }
+            } catch (err) {
+                if (err.response && err.response.status && err.response.status === 400)
+                    toast.error(err.response.data.msg, toastOptions);
+                else
+                    navigate("/error");
+            }
+        }
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
