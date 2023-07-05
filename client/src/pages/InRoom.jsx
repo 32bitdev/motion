@@ -92,7 +92,24 @@ export default function InRoom() {
         // Show Options logic shall be written here
     }
     const exit = async () => {
-        // Exit logic shall be written here
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        try {
+            const { data } = await axios.post(`${exitRoomRoute}`, { roomId: roomId, _id: user._id });
+            if (data.status === true) {
+                if (videoId && presenter) {
+                    setVideoId("");
+                    setKey(uuidv4());
+                    await removeVideoSocket();
+                }
+                navigate('/');
+                window.location.reload(false);
+            }
+        } catch (err) {
+            if (err.response && err.response.status && err.response.status === 400)
+                toast.error(err.response.data.msg, toastOptions);
+            else
+                navigate("/error");
+        }
     }
     const setVideoSocket = async (videoId) => {
         // Set video socket logic shall be written here
