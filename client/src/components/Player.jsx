@@ -4,6 +4,31 @@ import axios from "axios";
 import Hls from "hls.js";
 
 export default function Player({ videoId, presenter, roomDetails, socket }) {
+    const seek = () => {
+        if (presenter) {
+            const owner = roomDetails.owner;
+            const roomId = roomDetails.roomId;
+            const newPosition = document.getElementById("videoPlayer").currentTime;
+            const payload = { owner: owner, roomId: roomId, newPosition: newPosition };
+            socket.current.emit("seeked", payload);
+        }
+    };
+    const pause = () => {
+        if (presenter) {
+            const owner = roomDetails.owner;
+            const roomId = roomDetails.roomId;
+            const payload = { owner: owner, roomId: roomId };
+            socket.current.emit("paused", payload);
+        }
+    };
+    const play = () => {
+        if (presenter) {
+            const owner = roomDetails.owner;
+            const roomId = roomDetails.roomId;
+            const payload = { owner: owner, roomId: roomId };
+            socket.current.emit("played", payload);
+        }
+    };
     useEffect(() => {
         async function fetchData() {
             if (videoId) {
@@ -11,6 +36,15 @@ export default function Player({ videoId, presenter, roomDetails, socket }) {
                 try {
                     const { data } = await axios.post(`${streamVerificationRoute}`, { _id: user._id, roomId: roomDetails.roomId, videoId: videoId }, { withCredentials: true });
                     if (data.status === true) {
+                        socket.current.on("pause", async () => {
+                            document.getElementById("videoPlayer").pause();
+                        });
+                        socket.current.on("play", async () => {
+                            document.getElementById("videoPlayer").play();
+                        });
+                        socket.current.on("seek", async (newPosition) => {
+                            document.getElementById("videoPlayer").currentTime = newPosition;
+                        });
                         const config = {
                             xhrSetup: function (xhr) {
                                 xhr.withCredentials = true;
@@ -35,7 +69,7 @@ export default function Player({ videoId, presenter, roomDetails, socket }) {
             }
         }
         fetchData();
-    }, [videoId]); // eslint-disable-line
+    }, [videoId, socket]); // eslint-disable-line
     return (
         <>
             {
@@ -49,6 +83,9 @@ export default function Player({ videoId, presenter, roomDetails, socket }) {
                             id="videoPlayer"
                             controls={presenter}
                             autoPlay={true}
+                            onPause={() => pause()}
+                            onSeeking={() => seek()}
+                            onPlay={() => play()}
                             style={presenter ? {} : { pointerEvents: "none" }}>
                         </video>
                     </>
