@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
       "room-update");
     socketIdToRoom.delete(socket.id);
   });
-  
+
   socket.on("set-video", async (payload) => {
     socket.to(`${payload.owner}+${payload.roomId}`).emit(
       "get-video", { videoId: payload.videoId, presenter: payload._id });
@@ -91,5 +91,20 @@ io.on("connection", (socket) => {
   socket.on("remove-video", async (payload) => {
     socket.to(`${payload.owner}+${payload.roomId}`).emit(
       "get-video", { presenter: payload._id });
+  });
+
+  socket.on("seeked", async (payload) => {
+    socket.to(`${payload.owner}+${payload.roomId}`).emit(
+      "seek", payload.newPosition);
+  });
+
+  socket.on("paused", async (payload) => {
+    socket.to(`${payload.owner}+${payload.roomId}`).emit(
+      "pause");
+  });
+
+  socket.on("played", async (payload) => {
+    socket.to(`${payload.owner}+${payload.roomId}`).emit(
+      "play");
   });
 });
