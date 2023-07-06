@@ -100,6 +100,11 @@ export default function InRoom() {
         const payload = { owner: user._id, roomId: roomDetails.roomId, memberName: memberName }
         socket.current.emit("kicked", payload);
     }
+    const ban = async (memberName) => {
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        const payload = { owner: user._id, roomId: roomDetails.roomId, memberName: memberName }
+        socket.current.emit("banned", payload);
+    }
     const showOptions = async (memberName) => {
         const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
         if (!toast.isActive(toastId.current) && (roomDetails.owner === user._id) && !(user.username === memberName)) {
