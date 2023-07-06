@@ -96,7 +96,21 @@ export default function InRoom() {
         }
     }
     const showOptions = async (memberName) => {
-        // Show Options logic shall be written here
+        const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+        if (!toast.isActive(toastId.current) && (roomDetails.owner === user._id) && !(user.username === memberName)) {
+            toastId.current = toast.warning(
+                <div className="kick-ban-options">
+                    <div className="kick-ban-options-title">
+                        Kick or Ban {memberName.charAt(0).toUpperCase() + memberName.slice(1)}?
+                    </div>
+                    <div>
+                        <button className="kick" onClick={() => kick(memberName)}>Kick</button>
+                        <button className="ban" onClick={() => ban(memberName)}>Ban</button>
+                    </div>
+                </div>
+                ,
+                toastOptions);
+        }
     }
     const exit = async () => {
         const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
