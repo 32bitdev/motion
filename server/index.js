@@ -71,6 +71,15 @@ io.on("connection", (socket) => {
       "room-request-approved", payload);
   });
 
+  socket.on("kicked", async (payload) => {
+    const user = await Users.findOne({ username: payload.memberName });
+    const roomDetails = await Rooms.findOne({ roomId: payload.roomId });
+    if (payload.owner === roomDetails.owner && !(payload.owner === user._id.toString())) {
+      console.log(onlineUsers.get(`${user._id}+${payload.roomId}`));
+      socket.to(onlineUsers.get(`${user._id}+${payload.roomId}`)).emit("leave-room");
+    }
+  });
+
   socket.on("disconnect", () => {
     const Id = onlineId.get(socket.id);
     onlineId.delete(socket.id);
