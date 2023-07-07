@@ -80,6 +80,15 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("banned", async (payload) => {
+    const user = await Users.findOne({ username: payload.memberName });
+    const roomDetails = await Rooms.findOne({ roomId: payload.roomId });
+    if (payload.owner === roomDetails.owner && !(payload.owner === user._id.toString())) {
+      await Rooms.updateOne({ roomId: payload.roomId }, { $push: { banMembers: user._id.toString() } });
+      socket.to(onlineUsers.get(`${user._id.toString()}+${payload.roomId}`)).emit("leave-room");
+    }
+  });
+
   socket.on("disconnect", () => {
     const Id = onlineId.get(socket.id);
     onlineId.delete(socket.id);
