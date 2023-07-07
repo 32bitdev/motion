@@ -33,6 +33,31 @@ export default function InRoom() {
     };
     const { roomId } = useParams();
     useEffect(() => {
+        const removeVideoSocket = async () => {
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId };
+            await socket.current.emit("remove-video", payload);
+        }
+        const exit = async () => {
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            try {
+                const { data } = await axios.post(`${exitRoomRoute}`, { roomId: roomId, _id: user._id });
+                if (data.status === true) {
+                    if (videoId && presenter) {
+                        setVideoId("");
+                        setKey(uuidv4());
+                        await removeVideoSocket();
+                    }
+                    navigate('/');
+                    window.location.reload(false);
+                }
+            } catch (err) {
+                if (err.response && err.response.status && err.response.status === 400)
+                    toast.error(err.response.data.msg, toastOptions);
+                else
+                    navigate("/error");
+            }
+        }
         async function fetchData() {
             const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
             try {
@@ -59,6 +84,9 @@ export default function InRoom() {
                             setVideoId(payload.videoId);
                             setKey(uuidv4());
                         }
+                    });
+                    socket.current.on("leave-room", async () => {
+                        exit();
                     });
                     socket.current.on("recieve-room-request", async (payload) => {
                         toast(
