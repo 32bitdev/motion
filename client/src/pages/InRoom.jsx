@@ -33,6 +33,40 @@ export default function InRoom() {
     };
     const { roomId } = useParams();
     useEffect(() => {
+        const setVideoSocket = async (videoId) => {
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId, videoId: videoId };
+            await socket.current.emit("set-video", payload);
+        }
+        const removeVideoSocket = async () => {
+            const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
+            const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId };
+            await socket.current.emit("remove-video", payload);
+        }
+        async function fetchData() {
+            const video = document.getElementById("videoPlayer");
+            if (videoId && presenter) {
+                const VideoId = videoId;
+                const state = video.paused;
+                const position = video.currentTime;
+                setVideoId("");
+                setKey(uuidv4());
+                removeVideoSocket();
+                await new Promise(res => setTimeout(res, 50));
+                setVideoId(VideoId);
+                setVideoSocket(VideoId);
+                await new Promise(res => setTimeout(res, 50));
+                const videoUpdated = document.getElementById("videoPlayer");
+                if (state)
+                    videoUpdated.pause();
+                else
+                    videoUpdated.play();
+                videoUpdated.currentTime = position;
+            }
+        }
+        fetchData();
+    }, [roomDetails]); // eslint-disable-line
+    useEffect(() => {
         const removeVideoSocket = async () => {
             const user = await JSON.parse(localStorage.getItem(process.env.MOTION_APP_LOCALHOST_KEY));
             const payload = { owner: roomDetails.owner, _id: user._id, roomId: roomDetails.roomId };
