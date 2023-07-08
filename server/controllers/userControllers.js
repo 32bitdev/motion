@@ -24,7 +24,6 @@ module.exports.register = async (req, res, next) => {
     }
 };
 
-
 // login post request handler
 module.exports.login = async (req, res, next) => {
     try {
