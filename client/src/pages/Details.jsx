@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { host, getDetailsRoute, changeVisibilityRoute, downloadRoute } from "../utils/APIRoutes";
+import { host, getDetailsRoute, changeVisibilityRoute, downloadRoute, deleteRoute } from "../utils/APIRoutes";
 import { useNavigate, useParams } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import Menu from "../components/Menu";
@@ -66,6 +66,17 @@ export default function Details() {
                 toast.error(err.response.data.msg, toastOptions);
             else
                 navigate("/error");
+        }
+    }
+    const deleteVideo = async (videoId) => {
+        const user = await JSON.parse(localStorage.getItem(process.env.MONGODRIVE_APP_LOCALHOST_KEY));
+        try {
+            const { data } = await axios.post(`${deleteRoute}`, { _id: user._id, videoId: videoId });
+            if (data.status === true) {
+                navigate("/");
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     const copyId = () => {
@@ -155,6 +166,32 @@ export default function Details() {
                                 <p className="detailsUploaderInfo">By {video.ownerName}</p>
                                 <p>{video.description}</p>
                             </div>
+                            {
+                                !(video.processed) ?
+                                    <>
+                                    </>
+                                    :
+                                    <>
+                                        <div onClick={() => {
+                                            if (!toast.isActive(toastId.current)) {
+                                                toastId.current = toast.warning(
+                                                    <div className="cancel-delete-options">
+                                                        <div className="cancel-delete-options-title">
+                                                            Confirm Delete ?
+                                                        </div>
+                                                        <div>
+                                                            <button className="cancel">Cancel</button>
+                                                            <button className="delete" onClick={() => deleteVideo(video.videoId)}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                    ,
+                                                    toastOptions);
+                                            }
+                                        }} className="deleteActionBox">
+                                            <p>Delete this Video Permanently</p>
+                                        </div>
+                                    </>
+                            }
                         </div>
                     </div>
                     <ToastContainer style={{ backgroundColor: "rgba(0, 0, 0, 0)", overflow: "hidden" }} toastStyle={{ backgroundColor: "#1b1b1b" }} newestOnTop />

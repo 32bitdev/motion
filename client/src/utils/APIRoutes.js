@@ -10,6 +10,7 @@ export const changeVisibilityRoute = `${host}/media/changeVisibility`;
 export const getVideosRoute = `${host}/media/getVideos`;
 export const getThumbsRoute = `${host}/media/getThumbs`;
 export const downloadRoute = `${host}/media/download`;
+export const deleteRoute = `${host}/media/delete`;
 export const roomDetailsRoute = `${host}/room/roomDetails`;
 export const createRoomRoute = `${host}/room/createRoom`;
 export const joinRoomRoute = `${host}/room/joinRoom`;

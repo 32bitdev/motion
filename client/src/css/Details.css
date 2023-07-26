@@ -123,6 +123,83 @@
     background-color: rgba(0, 0, 0, 0);
 }
 
+.deleteActionBox {
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(187, 0, 0);
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    margin-bottom: 8px;
+}
+
+.deleteActionBox:hover {
+    background-color: rgb(153, 0, 0);
+    cursor: pointer;
+}
+
+.deleteActionBox p {
+    background-color: rgba(0, 0, 0, 0);
+    width: 700px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancel-delete-options {
+    background-color: #1b1b1b;
+    display: flex;
+    flex-direction: column;
+}
+
+.cancel {
+    font-size: 16px;
+    background-color: rgb(66, 133, 244);
+    color: white;
+    text-align: center;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.cancel:hover {
+    background-color: rgb(37, 111, 249);
+    cursor: pointer;
+}
+
+.delete {
+    font-size: 16px;
+    background-color: rgb(244, 66, 66);
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.delete:hover {
+    background-color: rgb(213, 0, 0);
+    cursor: pointer;
+}
+
 .detailsVideoThumbs {
     width: 700px;
     height: 400px;
@@ -219,6 +296,10 @@
     }
 
     .detailsDescriptionBox {
+        width: calc(100vw - 20px);
+    }
+
+    .deleteActionBox {
         width: calc(100vw - 20px);
     }
 
