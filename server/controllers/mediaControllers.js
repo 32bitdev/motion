@@ -299,6 +299,27 @@ module.exports.download = async (req, res, next) => {
     }
 };
 
+//delete request handler
+module.exports.deleteVideo = async (req, res, next) => {
+    try {
+        const { _id, videoId } = req.body;
+        const user = await Users.findOne({ _id: new ObjectId(_id) });
+        if (!(user))
+            return res.status(500).json({ status: false, msg: "User not found" });
+        const video = await Metadata.findOne({ videoId: videoId });
+        if (!(_id === video.owner))
+            return res.status(500).json({ status: false, msg: "Access Denied" });
+        await Metadata.deleteOne({ videoId: videoId });
+        let newFileCount = user.fileCount - 1;
+        const update = await Users.updateOne({ _id: new ObjectId(_id) }, { $set: { fileCount: newFileCount } });
+        if (!update.acknowledged)
+            return res.status(500).json({ status: false, msg: "Something went wrong" });
+        return res.json({ status: true, msg: "File Deleted" });
+    } catch (ex) {
+        next(ex);
+    }
+};
+
 // change video visibility
 module.exports.changeVisibility = async (req, res, next) => {
     try {
