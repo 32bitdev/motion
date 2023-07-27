@@ -345,11 +345,11 @@ module.exports.getVideos = async (req, res, next) => {
     try {
         const { _id, onlyOwned } = req.body;
         if (onlyOwned) {
-            const videos = await Metadata.find({ owner: _id }).toArray();
+            const videos = await Metadata.find({ owner: _id }).sort({ _id: -1 }).toArray();
             return res.status(200).json({ status: true, videos: videos });
         }
         else {
-            const videos = await Metadata.find({ $and: [{ processed: true }, { $or: [{ owner: _id }, { isPrivate: false }] }] }).toArray();
+            const videos = await Metadata.find({ $and: [{ processed: true }, { $or: [{ owner: _id }, { isPrivate: false }] }] }).sort({ _id: -1 }).toArray();
             return res.status(200).json({ status: true, videos: videos });
         }
     } catch (ex) {
