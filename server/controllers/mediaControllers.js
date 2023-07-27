@@ -15,7 +15,6 @@ module.exports.upload = async (req, res, next) => {
             getVideoDurationInSeconds(`${path.join(__dirname, `..`, `..`, `database`, `${videoId}.mp4`)}`).then(async (duration) => {
                 if (duration == null)
                     console.log(`Error in finding length - ${videoId}`)
-                console.log(duration);
                 await new ffmpeg(`${path.join(__dirname, `..`, `..`, `database`, `${videoId}.mp4`)}`)
                     .takeScreenshots({
                         count: 1,
@@ -32,9 +31,7 @@ module.exports.upload = async (req, res, next) => {
         if (req.files === null)
             return res.status(400).json({ status: false, msg: "No file selected" });
         const file = await req.files.file;
-        console.log(file.name);
         const fileType = await file.mimetype;
-        console.log(file.mimetype);
         const title = await req.body.title;
         const description = await req.body.description;
         const _id = await req.body._id;
@@ -54,7 +51,6 @@ module.exports.upload = async (req, res, next) => {
         let newMediaCount = user.mediaCount + 1;
         const videoId = user._id + newMediaCount;
         file.name = videoId;
-        console.log(file.name);
         file.mv(`${path.join(__dirname, `..`, `..`, `database`, `${file.name}.mp4`)}`, async (err) => {
             if (err) {
                 return res.status(500).json({ status: false, msg: "Something went wrong" });

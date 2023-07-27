@@ -31,7 +31,6 @@ export default function Room() {
             if (err.response && err.response.status && err.response.status === 400)
                 toast.error(err.response.data.msg, toastOptions);
             else
-                // navigate("/error");
                 console.log(err);
         }
     }

@@ -21,7 +21,6 @@ export default function Validation() {
   }, [navigate]);
   useEffect(() => {
     async function fetchData() {
-      console.log("loaded");
       if (location.state === null) {
         if (!navigate) return;
         navigate("/");

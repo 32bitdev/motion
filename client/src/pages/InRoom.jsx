@@ -104,7 +104,6 @@ export default function InRoom() {
                     socket.current = io(host);
                     socket.current.emit("in-room", { roomDetails: data.roomDetails, _id: user._id });
                     socket.current.on("room-update", async () => {
-                        console.log("roomupdate");
                         try {
                             const { data } = await axios.post(`${roomDetailsRoute}`, { roomId: roomId, _id: user._id });
                             if (data.status === true)
