@@ -58,7 +58,7 @@ export default function Player({ videoId, presenter, roomDetails, socket }) {
                             hls.attachMedia(video);
                             document.getElementById("videoPlayer").load();
                             hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                                video.muted = true;
+                                video.muted = false;
                                 video.play();
                             });
                         }
