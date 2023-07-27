@@ -78,7 +78,7 @@ export default function Room() {
                         <button className="createButton" onClick={createRoom}>Create Room</button>
                         <form>
                             <div className="input-box">
-                                <input className="form__field" type="text" placeholder="Room Id" name="roomId" onChange={(e) => textHandleChange(e)} autocomplete="off" />
+                                <input className="form__field" type="text" placeholder="Room Id" name="roomId" onChange={(e) => textHandleChange(e)} autoComplete="off" />
                             </div>
                             {
                                 !(values.roomId) ?

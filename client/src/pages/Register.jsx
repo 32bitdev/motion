@@ -95,10 +95,10 @@ export default function Register() {
                     <div className="brand">
                         <h1>Motion</h1>
                     </div>
-                    <input type="text" placeholder="Username" name="username" onChange={(e) => handleChange(e)} autocomplete="off" />
-                    <input type="email" placeholder="Email" name="email" onChange={(e) => handleChange(e)} autocomplete="off" />
-                    <input type="password" placeholder="Password" name="password" onChange={(e) => handleChange(e)} autocomplete="off" />
-                    <input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(e) => handleChange(e)} autocomplete="off" />
+                    <input type="text" placeholder="Username" name="username" onChange={(e) => handleChange(e)} autoComplete="off" />
+                    <input type="email" placeholder="Email" name="email" onChange={(e) => handleChange(e)} autoComplete="off" />
+                    <input type="password" placeholder="Password" name="password" onChange={(e) => handleChange(e)} autoComplete="off" />
+                    <input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(e) => handleChange(e)} autoComplete="off" />
                     <button type="submit">Create User</button>
                     <span>Already have an account? <Link to="/login">Login</Link></span>
                 </form>

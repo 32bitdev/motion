@@ -56,8 +56,8 @@ export default function Login() {
                     <div className="brand">
                         <h1>Motion</h1>
                     </div>
-                    <input type="text" placeholder="Username" name="username" onChange={(e) => handleChange(e)} min="3" autocomplete="off" />
-                    <input type="password" placeholder="Password" name="password" onChange={(e) => handleChange(e)} autocomplete="off" />
+                    <input type="text" placeholder="Username" name="username" onChange={(e) => handleChange(e)} min="3" autoComplete="off" />
+                    <input type="password" placeholder="Password" name="password" onChange={(e) => handleChange(e)} autoComplete="off" />
                     <button type="submit">Log In</button>
                     <span>Don't have an account? <Link className="link" to="/register">Register</Link></span>
                 </form>

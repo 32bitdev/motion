@@ -113,7 +113,7 @@ export default function Upload() {
                                             {
                                                 !(file) ?
                                                     <form>
-                                                        <input id="customFile" type="file" accept=".mp4" onChange={(e) => fileHandleChange(e)} autocomplete="off" />
+                                                        <input id="customFile" type="file" accept=".mp4" onChange={(e) => fileHandleChange(e)} autoComplete="off" />
                                                         <label className="custom-file-label" style={file ? { pointerEvents: "none" } : {}} htmlFor="customFile">{filename}</label>
                                                     </form>
                                                     :
@@ -127,8 +127,8 @@ export default function Upload() {
                                         <>
                                             <form>
                                                 <div className="input-box">
-                                                    <input className="form-field" type="text" placeholder="Title" name="title" onChange={(e) => textHandleChange(e)} autocomplete="off" />
-                                                    <textarea className="form-field" type="text" placeholder="Description" name="description" onChange={(e) => textHandleChange(e)} autocomplete="off" />
+                                                    <input className="form-field" type="text" placeholder="Title" name="title" onChange={(e) => textHandleChange(e)} autoComplete="off" />
+                                                    <textarea className="form-field" type="text" placeholder="Description" name="description" onChange={(e) => textHandleChange(e)} autoComplete="off" />
                                                 </div>
                                                 <div className="navigation">
                                                     <button className="clearSelected" onClick={() => window.location.reload(false)}>Clear Selected</button>
