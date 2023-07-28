@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import image from "../assets/play-icon.svg";
+import processing from "../assets/processing.webp";
 import "../css/Videos.css";
 
 export default function Videos({ onlyOwned }) {
@@ -34,7 +35,7 @@ export default function Videos({ onlyOwned }) {
                             <div className="vidContainer">
                                 {videos.map((video) => {
                                     return (
-                                        <div key={uuidv4()} onClick={() => { (onlyOwned) ? navigate(`/details/${video.videoId}`) : navigate(`/player/${video.videoId}`) }} className="vidBoxes" style={{ backgroundImage: `url(${host}/media/getThumbs/${video.videoId})` }}>
+                                        <div key={uuidv4()} onClick={() => { (onlyOwned) ? navigate(`/details/${video.videoId}`) : navigate(`/player/${video.videoId}`) }} className="vidBoxes" style={(video.processed) ? { backgroundImage: `url(${host}/media/getThumbs/${video.videoId})` } : { backgroundImage: `url(${processing})` }}>
                                             {
                                                 !(onlyOwned) ?
                                                     <>
