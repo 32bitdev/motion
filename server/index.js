@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const socket = require("socket.io");
 const fileUpload = require("express-fileupload");
 const { Users, Rooms } = require("./collections/mongoCollections");
@@ -9,6 +11,9 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
+
+!fs.existsSync(`${path.join(__dirname, `..`, `database`)}`) ? fs.mkdirSync(`${path.join(__dirname, `..`, `database`)}`) : null;
+!fs.existsSync(`${path.join(__dirname, `..`, `database`, `thumbnails`)}`) ? fs.mkdirSync(`${path.join(__dirname, `..`, `database`, `thumbnails`)}`) : null;
 
 app.use(express.json());
 app.use(fileUpload());
